@@ -30,4 +30,9 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    public User(UUID id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
 }

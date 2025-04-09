@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -50,5 +51,17 @@ public class UserJpaGateway implements UserGateway {
     @Override
     public List<UserProjection> findAll(Integer page, Integer size) {
         return userRepository.findAll(page, size);
+    }
+
+    @Override
+    public void update(User user) {
+
+        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        userEntity.setName(user.getName());
+        userEntity.setEmail(user.getEmail());
+        userEntity.setUpdatedAt(LocalDateTime.now());
+
+        userRepository.saveAndFlush(userEntity);
     }
 }

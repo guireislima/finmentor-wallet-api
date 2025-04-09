@@ -1,6 +1,7 @@
 package br.com.finmentor.wallet.external_interfaces.web;
 
 import br.com.finmentor.wallet.core.user.dto.CreateUserDto;
+import br.com.finmentor.wallet.core.user.dto.UpdateUserDto;
 import br.com.finmentor.wallet.core.user.projection.UserDetailedProjection;
 import br.com.finmentor.wallet.core.user.projection.UserProjection;
 import br.com.finmentor.wallet.core.user.service.UserService;
@@ -33,6 +34,12 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserProjection>> findAll(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
         return ResponseEntity.ok(userService.findAll(page, size));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateUser(@PathVariable UUID id, @RequestBody UpdateUserDto dto) {
+        userService.updateUser(id, dto);
+        return ResponseEntity.ok().build();
     }
 
 }
