@@ -1,16 +1,23 @@
 package br.com.finmentor.wallet.external_interfaces.web;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import br.com.finmentor.wallet.core.user.dto.CreateUserDto;
+import br.com.finmentor.wallet.core.user.service.UserService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/v1/users")
 public class UserController {
 
-    @GetMapping
-    public String getUsers() {
-        return "Hello World!!!";
+    private UserService userService;
+
+    @PostMapping
+    public ResponseEntity<Void> createUser(@RequestBody CreateUserDto dto) {
+        userService.createUser(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }
