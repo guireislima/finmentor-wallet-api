@@ -3,12 +3,16 @@ package br.com.finmentor.wallet.external_interfaces.database.jpa.user;
 import br.com.finmentor.wallet.core.user.domain.User;
 import br.com.finmentor.wallet.core.user.exception.UserLoginAlreadyExistsException;
 import br.com.finmentor.wallet.core.user.gateway.UserGateway;
+import br.com.finmentor.wallet.core.user.projection.UserDetailedProjection;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.user.entity.UserEntity;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -34,5 +38,10 @@ public class UserJpaGateway implements UserGateway {
                 user.getUpdatedAt());
 
         userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserDetailedProjection findBy(UUID id) {
+        return userRepository.findByUserId(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
