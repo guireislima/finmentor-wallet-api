@@ -4,6 +4,7 @@ import br.com.finmentor.wallet.core.user.domain.User;
 import br.com.finmentor.wallet.core.user.exception.UserLoginAlreadyExistsException;
 import br.com.finmentor.wallet.core.user.gateway.UserGateway;
 import br.com.finmentor.wallet.core.user.projection.UserDetailedProjection;
+import br.com.finmentor.wallet.core.user.projection.UserProjection;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.user.entity.UserEntity;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -43,5 +45,10 @@ public class UserJpaGateway implements UserGateway {
     @Override
     public UserDetailedProjection findBy(UUID id) {
         return userRepository.findByUserId(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Override
+    public List<UserProjection> findAll(Integer page, Integer size) {
+        return userRepository.findAll(page, size);
     }
 }

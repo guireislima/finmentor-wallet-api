@@ -2,12 +2,14 @@ package br.com.finmentor.wallet.external_interfaces.web;
 
 import br.com.finmentor.wallet.core.user.dto.CreateUserDto;
 import br.com.finmentor.wallet.core.user.projection.UserDetailedProjection;
+import br.com.finmentor.wallet.core.user.projection.UserProjection;
 import br.com.finmentor.wallet.core.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -26,6 +28,11 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDetailedProjection> findById(@PathVariable UUID id) {
         return ResponseEntity.ok(userService.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserProjection>> findAll(@RequestParam(defaultValue = "0") Integer page, @RequestParam(defaultValue = "10") Integer size) {
+        return ResponseEntity.ok(userService.findAll(page, size));
     }
 
 }
