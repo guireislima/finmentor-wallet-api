@@ -35,4 +35,9 @@ public class User {
         this.name = name;
         this.email = email;
     }
+
+    public User(UUID id, String password) {
+        this.id = id;
+        this.password = password;
+    }
 }

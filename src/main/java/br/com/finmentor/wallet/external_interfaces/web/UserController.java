@@ -2,6 +2,7 @@ package br.com.finmentor.wallet.external_interfaces.web;
 
 import br.com.finmentor.wallet.core.user.dto.CreateUserDto;
 import br.com.finmentor.wallet.core.user.dto.UpdateUserDto;
+import br.com.finmentor.wallet.core.user.dto.UpdateUserPasswordDto;
 import br.com.finmentor.wallet.core.user.projection.UserDetailedProjection;
 import br.com.finmentor.wallet.core.user.projection.UserProjection;
 import br.com.finmentor.wallet.core.user.service.UserService;
@@ -42,4 +43,15 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping("/{id}/password")
+    public ResponseEntity<Void> updatePassword(@PathVariable UUID id, @RequestBody UpdateUserPasswordDto dto) {
+        userService.updatePassword(id, dto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
+    }
 }

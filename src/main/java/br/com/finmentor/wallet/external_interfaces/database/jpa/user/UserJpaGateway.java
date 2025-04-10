@@ -64,4 +64,23 @@ public class UserJpaGateway implements UserGateway {
 
         userRepository.saveAndFlush(userEntity);
     }
+
+    @Override
+    public void updatePassword(User user) {
+
+        UserEntity userEntity = userRepository.findById(user.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        userEntity.setUpdatedAt(LocalDateTime.now());
+
+        userRepository.saveAndFlush(userEntity);
+    }
+
+    @Override
+    public void deleteBy(UUID id) {
+
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        userRepository.delete(userEntity);
+    }
 }

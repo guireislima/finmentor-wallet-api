@@ -2,12 +2,10 @@ package br.com.finmentor.wallet.core.user.service;
 
 import br.com.finmentor.wallet.core.user.dto.CreateUserDto;
 import br.com.finmentor.wallet.core.user.dto.UpdateUserDto;
+import br.com.finmentor.wallet.core.user.dto.UpdateUserPasswordDto;
 import br.com.finmentor.wallet.core.user.projection.UserDetailedProjection;
 import br.com.finmentor.wallet.core.user.projection.UserProjection;
-import br.com.finmentor.wallet.core.user.usecase.CreateUserUseCase;
-import br.com.finmentor.wallet.core.user.usecase.FindAllUsersUseCase;
-import br.com.finmentor.wallet.core.user.usecase.FindUserByIdUseCase;
-import br.com.finmentor.wallet.core.user.usecase.UpdateUserUseCase;
+import br.com.finmentor.wallet.core.user.usecase.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +20,8 @@ public class UserService {
     private final FindUserByIdUseCase findUserByIdUseCase;
     private final FindAllUsersUseCase findAllUsersUseCase;
     private final UpdateUserUseCase updateUserUseCase;
+    private final UpdateUserPasswordUseCase updateUserPasswordUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
 
     public void createUser(CreateUserDto dto) {
         createUserUseCase.create(dto);
@@ -37,5 +37,13 @@ public class UserService {
 
     public void updateUser(UUID id, UpdateUserDto dto) {
         updateUserUseCase.update(dto, id);
+    }
+
+    public void updatePassword(UUID id, UpdateUserPasswordDto dto) {
+        updateUserPasswordUseCase.update(dto, id);
+    }
+
+    public void deleteUser(UUID id) {
+        deleteUserUseCase.deleteBy(id);
     }
 }

@@ -12,4 +12,6 @@ public interface UserGateway {
     UserDetailedProjection findBy(UUID id);
     List<UserProjection> findAll(Integer page, Integer size);
     void update(User user);
+    void updatePassword(User user);
+    void deleteBy(UUID id);
 }
