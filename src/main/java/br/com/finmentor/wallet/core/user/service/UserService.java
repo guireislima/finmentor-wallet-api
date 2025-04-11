@@ -1,8 +1,6 @@
 package br.com.finmentor.wallet.core.user.service;
 
-import br.com.finmentor.wallet.core.user.dto.CreateUserDto;
-import br.com.finmentor.wallet.core.user.dto.UpdateUserDto;
-import br.com.finmentor.wallet.core.user.dto.UpdateUserPasswordDto;
+import br.com.finmentor.wallet.core.user.dto.*;
 import br.com.finmentor.wallet.core.user.projection.UserDetailedProjection;
 import br.com.finmentor.wallet.core.user.projection.UserProjection;
 import br.com.finmentor.wallet.core.user.usecase.*;
@@ -22,6 +20,7 @@ public class UserService {
     private final UpdateUserUseCase updateUserUseCase;
     private final UpdateUserPasswordUseCase updateUserPasswordUseCase;
     private final DeleteUserUseCase deleteUserUseCase;
+    private final LoginUseCase loginUseCase;
 
     public void createUser(CreateUserDto dto) {
         createUserUseCase.create(dto);
@@ -45,5 +44,9 @@ public class UserService {
 
     public void deleteUser(UUID id) {
         deleteUserUseCase.deleteBy(id);
+    }
+
+    public TokenUserDto login(LoginUserDto dto) {
+        return loginUseCase.login(dto);
     }
 }

@@ -18,6 +18,6 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     @Query(value = "SELECT * FROM users WHERE users.id = :id", nativeQuery = true)
     Optional<UserDetailedProjection> findByUserId(UUID id);
 
-    @Query(value = "SELECT * FROM users ORDER BY name LIMIT :size OFFSET (SELECT :page * :size)", nativeQuery = true)
-    List<UserProjection> findAll(Integer page, Integer size);
+    @Query(value = "SELECT * FROM users WHERE :login IS NULL OR users.login = :login ORDER BY name LIMIT :size OFFSET (SELECT :page * :size)", nativeQuery = true)
+    List<UserProjection> findAllOrOnlyByLogin(Integer page, Integer size, String login);
 }

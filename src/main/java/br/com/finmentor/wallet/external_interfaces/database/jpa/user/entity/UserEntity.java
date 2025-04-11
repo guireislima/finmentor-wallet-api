@@ -3,8 +3,13 @@ package br.com.finmentor.wallet.external_interfaces.database.jpa.user.entity;
 import br.com.finmentor.wallet.core.user.enums.RoleName;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -12,7 +17,7 @@ import java.util.UUID;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserEntity {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,4 +53,17 @@ public class UserEntity {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.login;
+    }
+
+    public boolean isLoggedUser(String login) {
+        return this.login.equalsIgnoreCase(login);
+    }
 }

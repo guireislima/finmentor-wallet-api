@@ -1,6 +1,8 @@
 package br.com.finmentor.wallet.core.user.gateway;
 
 import br.com.finmentor.wallet.core.user.domain.User;
+import br.com.finmentor.wallet.core.user.dto.LoginUserDto;
+import br.com.finmentor.wallet.core.user.dto.TokenUserDto;
 import br.com.finmentor.wallet.core.user.projection.UserDetailedProjection;
 import br.com.finmentor.wallet.core.user.projection.UserProjection;
 
@@ -14,4 +16,5 @@ public interface UserGateway {
     void update(User user);
     void updatePassword(User user);
     void deleteBy(UUID id);
+    TokenUserDto login(LoginUserDto dto);
 }
