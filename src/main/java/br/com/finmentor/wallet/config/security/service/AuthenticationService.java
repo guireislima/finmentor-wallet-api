@@ -5,6 +5,8 @@ import br.com.finmentor.wallet.external_interfaces.database.jpa.user.entity.User
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class AuthenticationService {
 
@@ -15,5 +17,9 @@ public class AuthenticationService {
 
     public String getAuthenticatedUserName() {
         return ((UserEntity)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getLogin();
+    }
+
+    public UUID getAuthenticatedUserId() {
+        return ((UserEntity)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     }
 }
