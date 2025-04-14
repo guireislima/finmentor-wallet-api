@@ -1,5 +1,6 @@
 package br.com.finmentor.wallet.core.wallet.domain;
 
+import br.com.finmentor.wallet.core.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,7 +12,8 @@ import java.util.UUID;
 public class Wallet {
 
     private UUID id;
-    private UUID userId;
+    private User user;
+    //private UUID userId;
     private String name;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

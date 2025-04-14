@@ -1,6 +1,7 @@
 package br.com.finmentor.wallet.external_interfaces.database.jpa.user.entity;
 
 import br.com.finmentor.wallet.core.user.enums.RoleName;
+import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet.entity.WalletEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,9 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Entity
@@ -42,6 +41,9 @@ public class UserEntity implements UserDetails {
 
     @Setter
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<WalletEntity> wallets = new HashSet<>();
 
     public UserEntity(String login, String password, String name, String email, RoleName role, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.login = login;
