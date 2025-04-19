@@ -5,6 +5,7 @@ import br.com.finmentor.wallet.core.wallet.domain.Wallet;
 import br.com.finmentor.wallet.core.wallet.exception.WalletNameAlreadyExistsException;
 import br.com.finmentor.wallet.core.wallet.exception.WalletNotFoundException;
 import br.com.finmentor.wallet.core.wallet.gateway.WalletGateway;
+import br.com.finmentor.wallet.core.wallet.projection.WalletProjection;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.user.entity.UserEntity;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet.entity.WalletEntity;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet.repository.WalletRepository;
@@ -13,7 +14,9 @@ import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -70,5 +73,33 @@ public class WalletJpaGateway implements WalletGateway {
         }
 
         walletRepository.delete(walletEntity);
+    }
+
+    @Override
+    public WalletProjection findBy(UUID id) {
+
+        WalletEntity walletEntity = walletRepository.findById(id)
+                .orElseThrow(() -> new WalletNotFoundException("Wallet not found!"));
+
+        if (!walletEntity.getUser().equals(authenticationService.getAuthenticatedUser())
+                && !authenticationService.isAuthenticatedUserAdmin()) {
+            throw new AuthorizationDeniedException("You do not have permission to view this wallet!");
+        }
+
+        return new WalletProjection(walletEntity.getName(), walletEntity.getCreatedAt());
+    }
+
+    @Override
+    public List<WalletProjection> findAll(Integer page, Integer size) {
+
+        UUID userId = null;
+        if (!authenticationService.isAuthenticatedUserAdmin()) {
+            userId = authenticationService.getAuthenticatedUser().getId();
+        }
+
+        return walletRepository.findAllOrOnlyByUserId(page, size, userId)
+                .stream()
+                .map(we -> new WalletProjection(we.getName(), we.getCreatedAt()))
+                .collect(Collectors.toList());
     }
 }
