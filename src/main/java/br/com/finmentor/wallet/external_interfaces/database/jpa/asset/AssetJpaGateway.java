@@ -90,4 +90,5 @@ public class AssetJpaGateway implements AssetGateway {
 
         assetRepository.delete(assetEntity);
     }
+
 }

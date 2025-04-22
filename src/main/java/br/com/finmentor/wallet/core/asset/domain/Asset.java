@@ -42,4 +42,8 @@ public class Asset {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
+
+    public Asset(UUID id) {
+        this.id = id;
+    }
 }

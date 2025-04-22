@@ -83,7 +83,7 @@ public class WalletJpaGateway implements WalletGateway {
 
         if (!walletEntity.getUser().equals(authenticationService.getAuthenticatedUser())
                 && !authenticationService.isAuthenticatedUserAdmin()) {
-            throw new AuthorizationDeniedException("You do not have permission to view this wallet!");
+            throw new AuthorizationDeniedException("You do not have permission to access this wallet!");
         }
 
         return new WalletProjection(walletEntity.getName(), walletEntity.getCreatedAt());
@@ -102,4 +102,5 @@ public class WalletJpaGateway implements WalletGateway {
                 .map(we -> new WalletProjection(we.getName(), we.getCreatedAt()))
                 .collect(Collectors.toList());
     }
+
 }

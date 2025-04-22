@@ -1,10 +1,13 @@
 package br.com.finmentor.wallet.external_interfaces.database.jpa.wallet.entity;
 
 import br.com.finmentor.wallet.external_interfaces.database.jpa.user.entity.UserEntity;
+import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet_asset.entity.WalletAssetEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -31,6 +34,9 @@ public class WalletEntity {
 
     @Setter
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "wallet", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<WalletAssetEntity> walletAssets = new HashSet<>();
 
     public WalletEntity(UserEntity user, String name) {
         this.user = user;

@@ -30,4 +30,8 @@ public class Wallet {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
+
+    public Wallet(UUID id) {
+        this.id = id;
+    }
 }

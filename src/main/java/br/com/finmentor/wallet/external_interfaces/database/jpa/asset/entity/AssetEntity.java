@@ -1,6 +1,7 @@
 package br.com.finmentor.wallet.external_interfaces.database.jpa.asset.entity;
 
 import br.com.finmentor.wallet.core.asset.enums.AssetType;
+import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet_asset.entity.WalletAssetEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -45,6 +48,9 @@ public class AssetEntity {
 
     @Setter
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "asset", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private Set<WalletAssetEntity> assetWallets = new HashSet<>();
 
     public AssetEntity(String name, String shortName, AssetType type, String currency, Double value, String valueBase) {
         this.name = name;
