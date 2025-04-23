@@ -1,5 +1,6 @@
 package br.com.finmentor.wallet.external_interfaces.database.jpa.user.entity;
 
+import br.com.finmentor.wallet.core.user.domain.User;
 import br.com.finmentor.wallet.core.user.enums.RoleName;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet.entity.WalletEntity;
 import jakarta.persistence.*;
@@ -68,4 +69,16 @@ public class UserEntity implements UserDetails {
     public boolean isLoggedUser(String login) {
         return this.login.equalsIgnoreCase(login);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    public User entityToDomain() {
+        return new User(this.id, this.login, this.password, this.name, this.email, this.role, this.createdAt, this.updatedAt, new HashSet<>());
+    }
+
 }

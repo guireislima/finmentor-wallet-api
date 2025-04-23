@@ -1,10 +1,14 @@
 package br.com.finmentor.wallet.core.wallet.domain;
 
 import br.com.finmentor.wallet.core.user.domain.User;
+import br.com.finmentor.wallet.core.wallet_asset.domain.WalletAsset;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -17,6 +21,9 @@ public class Wallet {
     private String name;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @Setter
+    private Set<WalletAsset> walletAssets = new HashSet<>();
 
     public Wallet(String name) {
         this.name = name;

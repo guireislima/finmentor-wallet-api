@@ -1,6 +1,7 @@
 package br.com.finmentor.wallet.core.wallet_asset.domain;
 
 import br.com.finmentor.wallet.core.asset.domain.Asset;
+import br.com.finmentor.wallet.core.asset.enums.AssetType;
 import br.com.finmentor.wallet.core.wallet.domain.Wallet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,22 @@ public class WalletAsset {
         this.custody = custody;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public static Double getTotal(AssetType type, Double amount, Double value) {
+        if (type == AssetType.FIXED_ASSET){
+            return amount;
+        } else {
+            return amount * value;
+        }
+    }
+
+    public static Double getYield(AssetType type, Double value) {
+        if (type == AssetType.FIXED_ASSET){
+            return value; // multiply by valueBase, create method in Asset with gateway for financial apis
+        } else {
+            return value; // subtract by value when createdAt, create method in Asset with gateway for financial apis
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package br.com.finmentor.wallet.external_interfaces.database.jpa.asset.entity;
 
+import br.com.finmentor.wallet.core.asset.domain.Asset;
 import br.com.finmentor.wallet.core.asset.enums.AssetType;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet_asset.entity.WalletAssetEntity;
 import jakarta.persistence.*;
@@ -61,6 +62,10 @@ public class AssetEntity {
         this.valueBase = valueBase;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public Asset entityToDomain() {
+        return new Asset(this.id, this.name, this.shortName, this.type, this.currency, this.value, this.valueBase, this.createdAt, this.updatedAt, new HashSet<>());
     }
 
 }

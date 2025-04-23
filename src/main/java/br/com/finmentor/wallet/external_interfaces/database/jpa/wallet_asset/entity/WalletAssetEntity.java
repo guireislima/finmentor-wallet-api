@@ -1,5 +1,6 @@
 package br.com.finmentor.wallet.external_interfaces.database.jpa.wallet_asset.entity;
 
+import br.com.finmentor.wallet.core.wallet_asset.domain.WalletAsset;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.asset.entity.AssetEntity;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet.entity.WalletEntity;
 import jakarta.persistence.*;
@@ -53,6 +54,10 @@ public class WalletAssetEntity {
         this.custody = custody;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public WalletAsset entityToDomain() {
+        return new WalletAsset(this.id, this.name, this.wallet.entityToDomain(), this.asset.entityToDomain(), this.amount, this.custody, this.createdAt, this.updatedAt);
     }
 
 }

@@ -5,6 +5,7 @@ import br.com.finmentor.wallet.core.wallet.dto.UpdateWalletDto;
 import br.com.finmentor.wallet.core.wallet.projection.WalletProjection;
 import br.com.finmentor.wallet.core.wallet.service.WalletService;
 import br.com.finmentor.wallet.core.wallet_asset.dto.WalletAssetDto;
+import br.com.finmentor.wallet.core.wallet_asset.projection.WalletAssetsProjection;
 import br.com.finmentor.wallet.core.wallet_asset.service.WalletAssetService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,13 @@ public class WalletController {
     public ResponseEntity<Void> addAssetToWallet(@PathVariable UUID walletId, @RequestBody WalletAssetDto dto) {
         walletAssetService.addAssetToWallet(walletId, dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/{walletId}/assets")
+    public ResponseEntity<WalletAssetsProjection> viewWalletAssets(@PathVariable UUID walletId,
+                                                                   @RequestParam(defaultValue = "0") Integer page,
+                                                                   @RequestParam(defaultValue = "10") Integer size) {
+        return ResponseEntity.ok(walletAssetService.viewWalletAssets(walletId, page, size));
     }
 
 }
