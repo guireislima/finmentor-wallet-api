@@ -3,7 +3,7 @@ package br.com.finmentor.wallet.core.wallet_asset.usecase;
 import br.com.finmentor.wallet.core.asset.domain.Asset;
 import br.com.finmentor.wallet.core.wallet.domain.Wallet;
 import br.com.finmentor.wallet.core.wallet_asset.domain.WalletAsset;
-import br.com.finmentor.wallet.core.wallet_asset.dto.WalletAssetDto;
+import br.com.finmentor.wallet.core.wallet_asset.dto.CreateWalletAssetDto;
 import br.com.finmentor.wallet.core.wallet_asset.gateway.WalletAssetGateway;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class AddAssetToWalletUseCaseImpl implements AddAssetToWalletUseCase {
     private final WalletAssetGateway walletAssetGateway;
 
     @Override
-    public void add(UUID walletId, WalletAssetDto dto) {
+    public void add(UUID walletId, CreateWalletAssetDto dto) {
 
         WalletAsset walletAsset = new WalletAsset(dto.name(),
                 new Wallet(walletId),

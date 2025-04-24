@@ -6,6 +6,7 @@ import br.com.finmentor.wallet.core.wallet.exception.WalletNotFoundException;
 import br.com.finmentor.wallet.core.wallet_asset.domain.WalletAsset;
 import br.com.finmentor.wallet.core.wallet_asset.exception.EmptyWalletException;
 import br.com.finmentor.wallet.core.wallet_asset.exception.WalletAssetNameAlreadyExistsException;
+import br.com.finmentor.wallet.core.wallet_asset.exception.WalletAssetNotFoundException;
 import br.com.finmentor.wallet.core.wallet_asset.gateway.WalletAssetGateway;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.asset.repository.AssetRepository;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet.entity.WalletEntity;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,8 +63,8 @@ public class WalletAssetJpaGateway implements WalletAssetGateway {
 
         List<WalletAssetEntity> assets = walletAssetRepository.findWalletAssets(walletId, page, size);
 
-        if (!assets.get(0).getWallet().getUser().equals(authenticationService.getAuthenticatedUser())
-                && !authenticationService.isAuthenticatedUserAdmin() && !assets.isEmpty()) {
+        if (!assets.isEmpty() && !assets.get(0).getWallet().getUser().equals(authenticationService.getAuthenticatedUser())
+                && !authenticationService.isAuthenticatedUserAdmin()) {
             throw new AuthorizationDeniedException("You do not have permission to access this wallet!");
         }
 
@@ -71,6 +73,43 @@ public class WalletAssetJpaGateway implements WalletAssetGateway {
         }
 
         return assets.stream().map(WalletAssetEntity::entityToDomain).toList();
+
+    }
+
+    @Override
+    public void updateWalletAssets(List<WalletAsset> walletAssets) {
+
+        walletAssets.forEach(wa ->
+        {
+            WalletAssetEntity wae = walletAssetRepository.findById(wa.getId())
+                    .orElseThrow(() -> new WalletAssetNotFoundException("Wallet asset not found!"));
+
+            if (!wae.getWallet().getUser().equals(authenticationService.getAuthenticatedUser())
+                && !authenticationService.isAuthenticatedUserAdmin()) {
+                throw new AuthorizationDeniedException("You do not have permission to access this wallet!");
+            }
+
+            wae.setAmount(wa.getAmount());
+            wae.setCustody(wa.getCustody());
+            wae.setUpdatedAt(LocalDateTime.now());
+
+            walletAssetRepository.saveAndFlush(wae);
+        });
+
+    }
+
+    @Override
+    public void deleteWalletAsset(UUID walletAssetId) {
+
+        WalletAssetEntity wae = walletAssetRepository.findById(walletAssetId)
+                .orElseThrow(() -> new WalletAssetNotFoundException("Wallet asset not found!"));
+
+        if (!wae.getWallet().getUser().equals(authenticationService.getAuthenticatedUser())
+                && !authenticationService.isAuthenticatedUserAdmin()) {
+            throw new AuthorizationDeniedException("You do not have permission to access this wallet!");
+        }
+
+        walletAssetRepository.delete(wae);
 
     }
 

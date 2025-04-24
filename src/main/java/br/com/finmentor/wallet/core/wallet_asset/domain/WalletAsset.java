@@ -32,6 +32,12 @@ public class WalletAsset {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public WalletAsset(UUID id, Double amount, String custody) {
+        this.id = id;
+        this.amount = amount;
+        this.custody = custody;
+    }
+
     public static Double getTotal(AssetType type, Double amount, Double value) {
         if (type == AssetType.FIXED_ASSET){
             return amount;

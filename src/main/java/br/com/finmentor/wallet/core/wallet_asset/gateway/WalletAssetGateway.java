@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface WalletAssetGateway {
     void add(WalletAsset walletAsset);
     List<WalletAsset> findAssets(UUID walletId, Integer page, Integer size);
+    void updateWalletAssets(List<WalletAsset> walletAssets);
+    void deleteWalletAsset(UUID walletAssetId);
 }

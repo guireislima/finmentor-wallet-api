@@ -27,7 +27,8 @@ public class ViewWalletAssetsUseCaseImpl implements ViewWalletAssetsUseCase {
                         .map(wa ->
                         {
                             Asset asset = wa.getAsset();
-                            return new WalletAssetBaseProjection(asset.getShortName(),
+                            return new WalletAssetBaseProjection(wa.getId(),
+                                    asset.getShortName(),
                                     wa.getName(),
                                     wa.getCustody(),
                                     asset.getName(),

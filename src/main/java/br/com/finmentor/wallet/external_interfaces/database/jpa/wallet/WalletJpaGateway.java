@@ -86,7 +86,7 @@ public class WalletJpaGateway implements WalletGateway {
             throw new AuthorizationDeniedException("You do not have permission to access this wallet!");
         }
 
-        return new WalletProjection(walletEntity.getName(), walletEntity.getCreatedAt());
+        return new WalletProjection(walletEntity.getId(), walletEntity.getName(), walletEntity.getCreatedAt());
     }
 
     @Override
@@ -99,7 +99,7 @@ public class WalletJpaGateway implements WalletGateway {
 
         return walletRepository.findAllOrOnlyByUserId(page, size, userId)
                 .stream()
-                .map(we -> new WalletProjection(we.getName(), we.getCreatedAt()))
+                .map(we -> new WalletProjection(we.getId(), we.getName(), we.getCreatedAt()))
                 .collect(Collectors.toList());
     }
 
