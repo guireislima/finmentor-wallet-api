@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -78,15 +77,12 @@ public class WalletJpaGateway implements WalletGateway {
     @Override
     public WalletProjection findBy(UUID id) {
 
-        WalletEntity walletEntity = walletRepository.findById(id)
-                .orElseThrow(() -> new WalletNotFoundException("Wallet not found!"));
-
-        if (!walletEntity.getUser().equals(authenticationService.getAuthenticatedUser())
+        if (!walletRepository.existsByIdAndUserId(id, authenticationService.getAuthenticatedUser().getId())
                 && !authenticationService.isAuthenticatedUserAdmin()) {
             throw new AuthorizationDeniedException("You do not have permission to access this wallet!");
         }
 
-        return new WalletProjection(walletEntity.getId(), walletEntity.getName(), walletEntity.getCreatedAt());
+        return walletRepository.findWalletById(id);
     }
 
     @Override
@@ -97,10 +93,7 @@ public class WalletJpaGateway implements WalletGateway {
             userId = authenticationService.getAuthenticatedUser().getId();
         }
 
-        return walletRepository.findAllOrOnlyByUserId(page, size, userId)
-                .stream()
-                .map(we -> new WalletProjection(we.getId(), we.getName(), we.getCreatedAt()))
-                .collect(Collectors.toList());
+        return walletRepository.findAllOrOnlyByUserId(page, size, userId);
     }
 
 }
