@@ -1,5 +1,6 @@
 package br.com.finmentor.wallet.core.asset.domain;
 
+import br.com.finmentor.wallet.core.asset.enums.AssetClass;
 import br.com.finmentor.wallet.core.asset.enums.AssetType;
 import br.com.finmentor.wallet.core.wallet_asset.domain.WalletAsset;
 import lombok.AllArgsConstructor;
@@ -24,11 +25,12 @@ public class Asset {
     private String valueBase;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private AssetClass assetClass;
 
     @Setter
     private Set<WalletAsset> assetWallets = new HashSet<>();
 
-    public Asset(String name, String shortName, AssetType type, String currency, Double value, String valueBase) {
+    public Asset(String name, String shortName, AssetType type, String currency, Double value, String valueBase, AssetClass assetClass) {
         this.name = name;
         this.shortName = shortName;
         this.type = type;
@@ -37,6 +39,7 @@ public class Asset {
         this.valueBase = valueBase;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.assetClass = assetClass;
     }
 
     public Asset(UUID id, String name, String shortName, String currency, Double value, String valueBase) {

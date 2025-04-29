@@ -1,6 +1,7 @@
 package br.com.finmentor.wallet.external_interfaces.database.jpa.asset.entity;
 
 import br.com.finmentor.wallet.core.asset.domain.Asset;
+import br.com.finmentor.wallet.core.asset.enums.AssetClass;
 import br.com.finmentor.wallet.core.asset.enums.AssetType;
 import br.com.finmentor.wallet.external_interfaces.database.jpa.wallet_asset.entity.WalletAssetEntity;
 import jakarta.persistence.*;
@@ -53,7 +54,11 @@ public class AssetEntity {
     @OneToMany(mappedBy = "asset", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<WalletAssetEntity> assetWallets = new HashSet<>();
 
-    public AssetEntity(String name, String shortName, AssetType type, String currency, Double value, String valueBase) {
+    @Setter
+    @Enumerated(EnumType.STRING)
+    private AssetClass assetClass;
+
+    public AssetEntity(String name, String shortName, AssetType type, String currency, Double value, String valueBase, AssetClass assetClass) {
         this.name = name;
         this.shortName = shortName;
         this.type = type;
@@ -62,10 +67,11 @@ public class AssetEntity {
         this.valueBase = valueBase;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.assetClass = assetClass;
     }
 
     public Asset entityToDomain() {
-        return new Asset(this.id, this.name, this.shortName, this.type, this.currency, this.value, this.valueBase, this.createdAt, this.updatedAt, new HashSet<>());
+        return new Asset(this.id, this.name, this.shortName, this.type, this.currency, this.value, this.valueBase, this.createdAt, this.updatedAt, this.assetClass, new HashSet<>());
     }
 
 }

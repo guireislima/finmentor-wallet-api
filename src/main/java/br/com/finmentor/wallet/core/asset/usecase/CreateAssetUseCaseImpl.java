@@ -20,7 +20,8 @@ public class CreateAssetUseCaseImpl implements CreateAssetUseCase {
                 dto.type(),
                 dto.currency(),
                 dto.value(),
-                dto.valueBase());
+                dto.valueBase(),
+                dto.assetClass());
 
         assetGateway.create(asset);
 

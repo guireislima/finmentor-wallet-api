@@ -39,7 +39,8 @@ public class AssetJpaGateway implements AssetGateway {
                 asset.getType(),
                 asset.getCurrency(),
                 asset.getValue(),
-                asset.getValueBase());
+                asset.getValueBase(),
+                asset.getAssetClass());
 
         assetRepository.save(assetEntity);
     }
