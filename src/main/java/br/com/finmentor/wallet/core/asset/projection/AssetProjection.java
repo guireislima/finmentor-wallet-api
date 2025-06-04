@@ -9,7 +9,7 @@ public interface AssetProjection {
     UUID getId();
     String getName();
     String getCurrency();
-    Long getValue();
+    Double getValue();
     String getValueBase();
     @JsonProperty("class")
     AssetClass getAssetClass();
