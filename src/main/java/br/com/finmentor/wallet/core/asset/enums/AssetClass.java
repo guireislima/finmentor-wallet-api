@@ -9,7 +9,7 @@ public enum AssetClass {
     Stock("VARIABLE_ASSET"),
     REIT("VARIABLE_ASSET"),
     Criptomoeda("VARIABLE_ASSET"),
-    Multimercado("VARIABLE_ASSET"),;
+    Multimercado("VARIABLE_ASSET");
 
     public String type;
 
