@@ -3,6 +3,8 @@ package br.com.finmentor.wallet.core.asset.enums;
 public enum AssetClass {
     Tesouro("FIXED_ASSET"),
     CDB("FIXED_ASSET"),
+    LCI("FIXED_ASSET"),
+    LCA("FIXED_ASSET"),
     FundoRF("FIXED_ASSET"),
     Ação("VARIABLE_ASSET"),
     FII("VARIABLE_ASSET"),
